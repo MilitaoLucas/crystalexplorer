@@ -1,4 +1,5 @@
 #include "orientation.h"
+#include <QQuaternion>
 
 Orientation::Orientation() { m_transformationMatrix.setToIdentity(); }
 
