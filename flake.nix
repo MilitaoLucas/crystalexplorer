@@ -34,7 +34,6 @@
         shellHook = ''
           echo "🛠️  Build environment ready for x86_64-linux"
           echo "   Compilers: $(gcc --version | head -n1)"
-          exec zsh
         '';
       };
     };

@@ -41,3 +41,5 @@ tags
 *.coord
 *.molden.input
 *.xtbout.json
+.direnv
+.envrc

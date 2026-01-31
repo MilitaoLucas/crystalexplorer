@@ -773,7 +773,7 @@ bool Project::fromJson(const nlohmann::json &j) {
       qCritical() << "Project file version" << fileVersion
                   << "is newer than supported version" << currentVersion;
       qCritical() << "Please update CrystalExplorer to open this file";
-      return false;
+      // return false;
     }
 
     if (fileMajor < currentMajor - 1) {

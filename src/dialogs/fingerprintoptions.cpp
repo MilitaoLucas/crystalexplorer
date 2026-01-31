@@ -223,15 +223,16 @@ void FingerprintOptions::getFilenameAndSaveFingerprint() {
   //		filename = QFileDialog::getSaveFileName(nullptr, tr("Save
   //  Fingerprint"), "untitled.eps", tr("Postscript (*.eps);;Scalable Vector
   //  Graphics (*.svg)"));
+  static QString lastDir = "untitled.eps";
   if (settings::readSetting(settings::keys::ALLOW_CSV_FINGERPRINT_EXPORT)
           .toBool()) {
     filename = QFileDialog::getSaveFileName(
-        nullptr, tr("Save Fingerprint"), "untitled.eps",
+        nullptr, tr("Save Fingerprint"), lastDir,
         tr("Encapsulated Postscript (*.eps);; Portable Network Graphics "
            "(*.png);; Comma Separated Values (*.csv)"));
   } else {
     filename = QFileDialog::getSaveFileName(
-        nullptr, tr("Save Fingerprint"), "untitled.eps",
+        nullptr, tr("Save Fingerprint"), lastDir,
         tr("Encapsulated Postscript (*.eps);; Portable Network Graphics "
            "(*.png)"));
   }
