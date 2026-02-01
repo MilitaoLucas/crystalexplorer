@@ -20,9 +20,7 @@
       ];
       fastgltf = pkgs.callPackage ./3rdparty/nix/fastgltf.nix { };
       gemmi = pkgs.callPackage ./3rdparty/nix/gemmi.nix { };
-    in
-    {
-      packages.${system}.default = pkgs.stdenv.mkDerivation {
+      CrystalExplorer = pkgs.stdenv.mkDerivation {
         name = "CrystalExplorer";
         src = ./.;
         buildInputs = [
@@ -68,6 +66,27 @@
           mkdir -p $out/bin
           cp src/CrystalExplorer $out/bin/
         '';
+      };
+      cexp-desktop = pkgs.makeDesktopItem {
+        name = "crystalexplorer";
+        desktopName = "CrystalExplorer";
+        icon = ./icons/CrystalExplorer512x512.png;
+        comment = "Crystal Explorer";
+        exec = "${CrystalExplorer}/bin/CrystalExplorer";
+        categories = [
+          "X-Cristallography"
+          "Science"
+          "Education"
+        ];
+      };
+    in
+    {
+      packages.${system}.default = pkgs.symlinkJoin {
+        name = "olex2-wrapper";
+        paths = [
+          CrystalExplorer
+          cexp-desktop
+        ];
       };
       devShells.${system}.default = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
