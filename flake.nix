@@ -39,7 +39,12 @@
           qtEnv
           pkgs.qt6.qtbase
           pkgs.qt6.wrapQtAppsHook
+
           pkgs.makeWrapper
+          pkgs.xorg.libXcursor
+          pkgs.xorg.libxcb
+          pkgs.xorg.xcbutilcursor # <--- This fixes the "xcb-cursor0" error
+          pkgs.libxkbcommon
         ];
         nativeBuildInputs = [
           pkgs.cmake
@@ -61,6 +66,11 @@
           "-DCMAKE_CXX_COMPILER_LAUNCHER=${pkgs.ccache}/bin/ccache"
           "-DNIX_BUILD=ON"
         ];
+        qtWrapperArgs = [
+          "--set QT_QPA_PLATFORM wayland;xcb"
+          "--set WAYLAND_DISPLAY \"$WAYLAND_DISPLAY\""
+          "--set XDG_RUNTIME_DIR \"$XDG_RUNTIME_DIR\""
+        ];
         NIX_LDFLAGS = "-lquadmath";
         postInstall = ''
           mkdir -p $out/bin
@@ -72,7 +82,7 @@
         desktopName = "CrystalExplorer";
         icon = ./icons/CrystalExplorer512x512.png;
         comment = "Crystal Explorer";
-        exec = "${CrystalExplorer}/bin/CrystalExplorer";
+        exec = "env QT_QPA_PLATFORM=wayland,xcb ${CrystalExplorer}/bin/CrystalExplorer";
         categories = [
           "X-Cristallography"
           "Science"
