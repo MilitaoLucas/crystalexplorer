@@ -69,7 +69,6 @@
         qtWrapperArgs = [
           "--set QT_QPA_PLATFORM wayland;xcb"
           "--set WAYLAND_DISPLAY \"$WAYLAND_DISPLAY\""
-          "--set XDG_RUNTIME_DIR \"$XDG_RUNTIME_DIR\""
         ];
         NIX_LDFLAGS = "-lquadmath";
         postInstall = ''
