@@ -13,6 +13,7 @@
       qtEnv = pkgs.qt6.env "qt6-simc-${pkgs.qt6.qtbase.version}" [
         pkgs.qt6.qtbase
         pkgs.qt6.qttools
+        pkgs.qt6.qtwayland
         pkgs.qt6.qtdeclarative
         pkgs.qt6.qt5compat
         pkgs.qt6.qtwebchannel
@@ -32,6 +33,8 @@
           pkgs.fmt
           pkgs.nlohmann_json
           pkgs.simdjson
+          pkgs.gsettings-desktop-schemas # Fixes the "No GSettings schemas" crash
+          pkgs.glib # For GIO
           fastgltf
           gemmi
 
@@ -68,7 +71,6 @@
         ];
         qtWrapperArgs = [
           "--set QT_QPA_PLATFORM wayland;xcb"
-          "--set WAYLAND_DISPLAY \"$WAYLAND_DISPLAY\""
         ];
         NIX_LDFLAGS = "-lquadmath";
         postInstall = ''
