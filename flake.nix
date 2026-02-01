@@ -88,6 +88,7 @@
           "Science"
           "Education"
         ];
+        terminal = true;
       };
     in
     {
