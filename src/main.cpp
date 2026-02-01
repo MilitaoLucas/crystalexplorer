@@ -88,6 +88,7 @@ int main(int argc, char *argv[]) {
 #else
   format.setVersion(4, 3);
   format.setProfile(QSurfaceFormat::CoreProfile);
+  format.setRenderableType(QSurfaceFormat::OpenGL);
 #endif
 #ifdef QT_DEBUG
   format.setOption(QSurfaceFormat::DebugContext, true);
