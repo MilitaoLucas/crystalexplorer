@@ -74,6 +74,9 @@
         postInstall = ''
           mkdir -p $out/bin
           cp src/CrystalExplorer $out/bin/
+          wrapProgram $out/bin/CrystalExplorer \
+            --prefix XDG_DATA_DIRS : "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}" \
+            --prefix XDG_DATA_DIRS : "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
         '';
       };
       cexp-desktop = pkgs.makeDesktopItem {
