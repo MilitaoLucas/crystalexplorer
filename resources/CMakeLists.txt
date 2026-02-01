@@ -6,7 +6,7 @@ set(MESH_FILES
 set(MESH_QRC "${CMAKE_CURRENT_SOURCE_DIR}/mesh.qrc" PARENT_SCOPE)
 
 # OCC version and archive setup - skip for WASM
-if(NOT CPACK_SYSTEM_NAME STREQUAL "wasm")
+if(NOT CPACK_SYSTEM_NAME STREQUAL "wasm" AND NOT NIX_BUILD)
     set(OCC_ARCHIVE_STRING "occ-${OCC_VERSION}-${OCC_PLATFORM}.tar.xz" CACHE STRING "OCC archive string for download from github releases")
     message(STATUS "OCC archive string set to ${OCC_ARCHIVE_STRING}")
 

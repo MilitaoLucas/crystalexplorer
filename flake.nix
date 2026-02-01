@@ -10,8 +10,65 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      qtEnv = pkgs.qt6.env "qt6-simc-${pkgs.qt6.qtbase.version}" [
+        pkgs.qt6.qtbase
+        pkgs.qt6.qttools
+        pkgs.qt6.qtdeclarative
+        pkgs.qt6.qt5compat
+        pkgs.qt6.qtwebchannel
+        pkgs.qt6.qtpositioning
+      ];
+      fastgltf = pkgs.callPackage ./3rdparty/nix/fastgltf.nix { };
+      gemmi = pkgs.callPackage ./3rdparty/nix/gemmi.nix { };
     in
     {
+      packages.${system}.default = pkgs.stdenv.mkDerivation {
+        name = "CrystalExplorer";
+        src = ./.;
+        buildInputs = [
+          pkgs.cmake
+          pkgs.cpm-cmake
+
+          pkgs.eigen_3_4_0
+          pkgs.unordered_dense
+          pkgs.fmt
+          pkgs.nlohmann_json
+          pkgs.simdjson
+          fastgltf
+          gemmi
+
+          # qt
+          qtEnv
+          pkgs.qt6.qtbase
+          pkgs.qt6.wrapQtAppsHook
+          pkgs.makeWrapper
+        ];
+        nativeBuildInputs = [
+          pkgs.cmake
+          pkgs.ninja
+          pkgs.pkg-config
+          pkgs.ccache
+        ];
+        env = {
+          CCACHE_DIR = "/var/cache/ccache";
+          CCACHE_BASEDIR = "$NIX_BUILD_TOP";
+          CCACHE_SLOPPINESS = "locale,time_macros";
+        };
+        cmakeFlags = [
+          "-GNinja"
+          "-DCPM_DOWNLOAD_LOCATION=${pkgs.cpm-cmake}/share/cpm/CPM.cmake"
+          "-DUSE_SYSTEM_LIBXC=ON"
+          "-DCPM_USE_LOCAL_PACKAGES=ON"
+          "-DCMAKE_C_COMPILER_LAUNCHER=${pkgs.ccache}/bin/ccache"
+          "-DCMAKE_CXX_COMPILER_LAUNCHER=${pkgs.ccache}/bin/ccache"
+          "-DNIX_BUILD=ON"
+        ];
+        NIX_LDFLAGS = "-lquadmath";
+        postInstall = ''
+          mkdir -p $out/bin
+          cp src/CrystalExplorer $out/bin/
+        '';
+      };
       devShells.${system}.default = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
           pkg-config

@@ -1,4 +1,4 @@
-#include <fmt/core.h>
+#include <fmt/format.h>
 #include <occ/core/element.h>
 #include <fmt/core.h>
 #include <occ/crystal/asymmetric_unit.h>
