@@ -82,7 +82,7 @@
         desktopName = "CrystalExplorer";
         icon = ./icons/CrystalExplorer512x512.png;
         comment = "Crystal Explorer";
-        exec = "env QT_QPA_PLATFORM=wayland,xcb ${CrystalExplorer}/bin/CrystalExplorer";
+        exec = "CrystalExplorer";
         categories = [
           "X-Cristallography"
           "Science"
