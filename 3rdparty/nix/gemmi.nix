@@ -1,26 +1,20 @@
 {
   lib,
+  pkgs,
   stdenv,
   fetchFromGitHub,
-  cmake,
-  zlib,
+  version ? "0.6.7",
+  src,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "gemmi";
-  version = "0.6.7";
-
-  src = fetchFromGitHub {
-    owner = "project-gemmi";
-    repo = "gemmi";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-Y7gQSh9C7smoXuGWgpJI3hPIg06Jns+1dBpmMxuCrKE=";
-  };
-
+  inherit version;
+  inherit src;
   nativeBuildInputs = [
-    cmake
+    pkgs.cmake
   ];
-  buildInputs = [ zlib ];
+  buildInputs = [ pkgs.zlib ];
 
   cmakeFlags = [
     "DUSE_PYTHON=OFF"

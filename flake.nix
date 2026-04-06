@@ -3,13 +3,36 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    gemmi-src = {
+      url = "github:project-gemmi/gemmi?ref=v0.6.7";
+      flake = false;
+    };
+    fastgltf-src = {
+      url = "github:spnda/fastgltf?ref=v0.9.0";
+      flake = false;
+    };
   };
 
   outputs =
-    { self, nixpkgs }:
+    {
+      nixpkgs,
+      fastgltf-src,
+      gemmi-src,
+      ...
+    }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      fastgltf = pkgs.callPackage ./3rdparty/nix/fastgltf.nix {
+        pkgs = pkgs;
+        src = fastgltf-src;
+      };
+      gemmi = pkgs.callPackage ./3rdparty/nix/gemmi.nix {
+        pkgs = pkgs;
+        src = gemmi-src;
+      };
+    in
+    let
       qtEnv = pkgs.qt6.env "qt6-simc-${pkgs.qt6.qtbase.version}" [
         pkgs.qt6.qtbase
         pkgs.qt6.qttools
@@ -19,8 +42,6 @@
         pkgs.qt6.qtwebchannel
         pkgs.qt6.qtpositioning
       ];
-      fastgltf = pkgs.callPackage ./3rdparty/nix/fastgltf.nix { };
-      gemmi = pkgs.callPackage ./3rdparty/nix/gemmi.nix { };
       CrystalExplorer = pkgs.stdenv.mkDerivation {
         name = "CrystalExplorer";
         src = ./.;
@@ -44,9 +65,9 @@
           pkgs.qt6.wrapQtAppsHook
 
           pkgs.makeWrapper
-          pkgs.xorg.libXcursor
-          pkgs.xorg.libxcb
-          pkgs.xorg.xcbutilcursor # <--- This fixes the "xcb-cursor0" error
+          pkgs.libxcursor
+          pkgs.libxcb
+          pkgs.libxcb-cursor # <--- This fixes the "xcb-cursor0" error
           pkgs.libxkbcommon
         ];
         nativeBuildInputs = [
@@ -93,6 +114,7 @@
           "Education"
         ];
       };
+
     in
     {
       packages.${system}.default = pkgs.symlinkJoin {
@@ -118,7 +140,7 @@
           qt6.qtsvg
           qt6.qttools
           qt6.qtgraphs
-          xorg.libX11
+          libx11
         ];
 
         shellHook = ''

@@ -1,5 +1,39 @@
 {
   "nodes": {
+    "fastgltf-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1752008697,
+        "narHash": "sha256-15hFpOZdCo1I9+XJpbtEk3sqE19IO67PpbnpE4RnbBU=",
+        "owner": "spnda",
+        "repo": "fastgltf",
+        "rev": "0d1b67a28c4950ea2deb796702006dcbe31e02b3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "spnda",
+        "ref": "v0.9.0",
+        "repo": "fastgltf",
+        "type": "github"
+      }
+    },
+    "gemmi-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725632657,
+        "narHash": "sha256-Y7gQSh9C7smoXuGWgpJI3hPIg06Jns+1dBpmMxuCrKE=",
+        "owner": "project-gemmi",
+        "repo": "gemmi",
+        "rev": "0da57ac70a26e98949f28530e41aed841c8c9cfd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "project-gemmi",
+        "ref": "v0.6.7",
+        "repo": "gemmi",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1769018530,
@@ -18,6 +52,8 @@
     },
     "root": {
       "inputs": {
+        "fastgltf-src": "fastgltf-src",
+        "gemmi-src": "gemmi-src",
         "nixpkgs": "nixpkgs"
       }
     }
